@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: go-config
+data:
+  PYTHON_SERVICE_URL: "http://python-service:5000"
+  REDIS_URL: "redis-service:6379"

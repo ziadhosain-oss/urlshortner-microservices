@@ -1,25 +1,47 @@
-FROM golang:1.24-alpine
+# Build stage
+FROM golang:1.24-alpine AS builder
+
+# Install build dependencies for SQLite
+RUN apk add --no-cache gcc musl-dev
 
 WORKDIR /app
 
-# Install gcc and build tools for CGO (required by go-sqlite3)
-RUN apk add --no-cache gcc musl-dev sqlite-dev
+# Copy go mod files first for better caching
+COPY go.mod go.sum* ./
 
-# Copy go mod files
-COPY go.mod go.sum ./
+# Build stage
+FROM golang:1.24-alpine AS builder
 
-# Download dependencies
+# Install build dependencies for SQLite
+RUN apk add --no-cache gcc musl-dev
+
+WORKDIR /app
+
+# Copy go mod file
+COPY go.mod ./
+
+# Generate go.sum and download dependencies
 RUN go mod download
 
 # Copy source code
-COPY main.go ./
+COPY . .
 
-# Build the application with CGO enabled and proper tags for Alpine/musl
-ENV CGO_ENABLED=1
-RUN go build -tags "libsqlite3" -o urlshortener main.go
+# Run go mod tidy to ensure everything is in sync
+RUN go mod tidy
 
-# Expose port
+# Build with CGO enabled
+RUN CGO_ENABLED=1 go build -o go-service .
+
+# Run stage
+FROM alpine:latest
+
+# Install runtime dependencies
+RUN apk add --no-cache ca-certificates
+
+WORKDIR /app
+
+COPY --from=builder /app/go-service .
+
 EXPOSE 8000
 
-# Run the binary
-CMD ["./urlshortener"]
+CMD ["./go-service"]

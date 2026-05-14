@@ -1,16 +1,31 @@
-# Databases
-go.db
-python.db
-node.db
+# Docker
+docker-compose.override.yml
 
-# GO
-go.sum
+# Kubernetes
+k8s/kubectl
 
 # Python
-venv/
 __pycache__/
-*.pyc
+*.py[cod]
+*.db
+*.sqlite3
 
-# NodeJS
+# Node
 node_modules/
-package-lock.json
+*.db
+
+# Go
+go-service/go-service
+*.exe
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local

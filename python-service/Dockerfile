@@ -1,20 +1,14 @@
-FROM python:3.14-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# Copy requirements
-COPY requirements.txt ./
-
-# Install dependencies
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application files
-COPY app.py ./
-COPY templates/ ./templates/
+COPY . .
 
-# Expose port
-EXPOSE 5000
+EXPOSE 8080
 
-# Run Flask
 CMD ["python", "app.py"]
+
 
