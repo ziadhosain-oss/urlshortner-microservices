@@ -165,6 +165,27 @@ GitHub Actions automatically builds and pushes Docker images on push to main bra
 | `DOCKERHUB_USERNAME` | Your DockerHub username |
 | `DOCKERHUB_TOKEN` | DockerHub access token |
 
+## 🔍 SonarQube Code Analysis
+
+Automated code quality analysis via **SonarCloud** on every push and pull request.
+
+| Metric | Rating | Issues |
+|--------|--------|--------|
+| Security | A | 26 |
+| Reliability | E | 19 |
+| Maintainability | A | 45 |
+| Duplications | - | 2.2% |
+
+**Quality Gate:** Sonar way  
+**Organization:** ziadhosain-oss  
+**Configuration:** `sonar-project.properties`
+
+**Required GitHub Secrets:**
+| Secret | Description |
+|--------|-------------|
+| `SONAR_TOKEN` | SonarCloud access token |
+| `SONAR_HOST_URL` | `https://sonarcloud.io` |
+
 ## 🧪 Load Testing
 
 ### Simulate Traffic Spike
@@ -228,10 +249,15 @@ urlshortner-microservices/
 │   ├── Dockerfile
 │   ├── server.js
 │   └── package.json
+├── monitoring/                 # Monitoring Configs
+│   ├── prometheus.yaml
+│   ├── grafana.yaml
+│   ├── prometheus-rbac.yaml
+│   └── prometheus-cm.yaml
+├── sonar-project.properties    # SonarQube config
 ├── docker-compose.yml          # Local development
 ├── architecture.png            # Architecture diagram
 └── README.md                   # This file
-```
 
 ## ✅ Verification Checklist
 
