@@ -6,17 +6,6 @@ RUN apk add --no-cache gcc musl-dev
 
 WORKDIR /app
 
-# Copy go mod files first for better caching
-COPY go.mod go.sum* ./
-
-# Build stage
-FROM golang:1.24-alpine AS builder
-
-# Install build dependencies for SQLite
-RUN apk add --no-cache gcc musl-dev
-
-WORKDIR /app
-
 # Copy go mod file
 COPY go.mod ./
 
